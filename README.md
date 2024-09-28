@@ -32,27 +32,7 @@ MYSQL_PASSWORD=password
 
 Esto asegurará que las contraseñas y otros parámetros no estén visibles directamente en el archivo de configuración.
 
-#### **3. Crear el archivo `docker-compose.yml`**
-
-En una carpeta de tu preferencia, debes crear un archivo llamado `docker-compose.yml` con el siguiente contenido:
-
-```yaml
-version: '3.8'
-
-services:
-  mysql:
-    image: mysql:latest
-    container_name: sakila_mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: sakila
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./sakila-data:/docker-entrypoint-initdb.d
-```
+#### **3. verificar el archivo `docker-compose.yml`**
 
 **Explicación:**
 - El archivo configura un servicio de MySQL en un contenedor.
