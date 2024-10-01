@@ -125,7 +125,6 @@ CREATE TABLE customer (
   PRIMARY KEY  (customer_id),
   KEY idx_fk_store_id (store_id),
   KEY idx_fk_address_id (address_id),
-  KEY idx_last_name (last_name),
   CONSTRAINT fk_customer_address FOREIGN KEY (address_id) REFERENCES address (address_id) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT fk_customer_store FOREIGN KEY (store_id) REFERENCES store (store_id) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -149,7 +148,6 @@ CREATE TABLE film (
   special_features SET('Trailers','Commentaries','Deleted Scenes','Behind the Scenes') DEFAULT NULL,
   last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (film_id),
-  KEY idx_title (title),
   KEY idx_fk_language_id (language_id),
   KEY idx_fk_original_language_id (original_language_id),
   CONSTRAINT fk_film_language FOREIGN KEY (language_id) REFERENCES language (language_id) ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -270,17 +268,14 @@ CREATE TABLE payment (
   payment_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   customer_id SMALLINT UNSIGNED NOT NULL,
   staff_id TINYINT UNSIGNED NOT NULL,
-  rental_id INT DEFAULT NULL,
+  rental_id INT DEFAULT NULL,  -- Foreign key removed
   amount DECIMAL(5,2) NOT NULL,
   payment_date DATETIME NOT NULL,
   last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY  (payment_id),
-  KEY idx_fk_staff_id (staff_id),
-  KEY idx_fk_customer_id (customer_id),
-  CONSTRAINT fk_payment_rental FOREIGN KEY (rental_id) REFERENCES rental (rental_id) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT fk_payment_customer FOREIGN KEY (customer_id) REFERENCES customer (customer_id) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT fk_payment_staff FOREIGN KEY (staff_id) REFERENCES staff (staff_id) ON DELETE RESTRICT ON UPDATE CASCADE
+  PRIMARY KEY (payment_id)
+  -- Foreign key constraints and indexes removed
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 
 --
@@ -290,20 +285,15 @@ CREATE TABLE payment (
 CREATE TABLE rental (
   rental_id INT NOT NULL AUTO_INCREMENT,
   rental_date DATETIME NOT NULL,
-  inventory_id MEDIUMINT UNSIGNED NOT NULL,
-  customer_id SMALLINT UNSIGNED NOT NULL,
+  inventory_id MEDIUMINT UNSIGNED NOT NULL,  -- Foreign key removed
+  customer_id SMALLINT UNSIGNED NOT NULL,  -- Foreign key removed
   return_date DATETIME DEFAULT NULL,
   staff_id TINYINT UNSIGNED NOT NULL,
   last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (rental_id),
-  UNIQUE KEY  (rental_date,inventory_id,customer_id),
-  KEY idx_fk_inventory_id (inventory_id),
-  KEY idx_fk_customer_id (customer_id),
-  KEY idx_fk_staff_id (staff_id),
-  CONSTRAINT fk_rental_staff FOREIGN KEY (staff_id) REFERENCES staff (staff_id) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT fk_rental_inventory FOREIGN KEY (inventory_id) REFERENCES inventory (inventory_id) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT fk_rental_customer FOREIGN KEY (customer_id) REFERENCES customer (customer_id) ON DELETE RESTRICT ON UPDATE CASCADE
+  PRIMARY KEY (rental_id)
+  -- Foreign key constraints and indexes removed
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 --
 -- Table structure for table `staff`
